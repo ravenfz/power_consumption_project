@@ -165,12 +165,47 @@ Install Python on your laptop.
 
 You should have followed all the steps in the previous section untill the point your Sonoff/Tasmota is connected to your wireless network and has a certain known IP Address (it is up tou you to provide a static IP on your router if you desire so).
 
-1. Access to your Tasmota through a webrowser using it's IP Address;
+1. Access to your Tasmota through a web browser using it's IP Address;
 
+2. Configure the logging by going to the "Configuration" button then "Configure Logging" menu and filling it up as the following image shows. In the end hit the Save button (Sonoff will restart afterwards);
+
+   ![Configure Logging](img/config_logging_btn.png)
+
+   ![Logging Values](img/logging_values.png)
+
+   Serial and Syslog loggings is disable while web log is at level 2. Telemetry period is the rate MQTT data is sent and is set to 15 seconds.
+
+3. Configure the module, preparing already for the integration with PZEM, with the required GPIOs functions. For that access the "Configuration" menu and then "Module Configuration" and apply the values as shown in the following image;
+
+   ![Module Config Values](img/module_config_values.png)
+````
+   TX GPIO1  -> Select "PZEM0XX Tx (62)
+   RX GPIO3  -> Select "PZEM016 Rx (98)
+   D6 GPIO12 -> Select "Relay1 (21)
+`````
+   The D6 GPIO12 is optional since its only to be able to controll the power switch of the Sonoff. In case you don't want to use it, leave it at None (0).
+
+   **Note:** RX GPIO3 value is (98) for integrations with PZEM004T Version 3. In case it is the older version 1 it should be set to option (63) instead.
+
+For now thats all with the Tasmota, further configs explained during integration.
 
 ### 3.2 - PZEM-004
 
+The PZEM has litle to be done in preparation for the integration but for those who don't like soldering it might be enough. :)
+Due to the different serial voltage on both Sonoff (3.3V) and the PZEM module (5V), it's value must be adjusted.
+
+The easiest way might be creating a tension divider.
+
+The tutorial available at the [Wiki Article on Tasmota GitHub](https://github.com/arendst/Tasmota/wiki/PZEM004T-Energy-Monitor) explains this perfectly.
+
+Basically the 1K Ohm resistor needs to be soldered as shown in the following image.
+
+![pzem soldering](https://user-images.githubusercontent.com/34340210/63591794-cf3d5d80-c57d-11e9-9945-eb062bebf71b.jpeg "PZEM Resistor soldering")
+*PZEM004T Soldered resistor for voltage dividor [Tasmota Github](https://github.com/arendst/Tasmota/wiki/PZEM004T-Energy-Monitor)*
+
 ### 3.3 - Home Assistant
+
+
 
 ### 3.4 - Integration
 
