@@ -205,12 +205,78 @@ Basically the 1K Ohm resistor needs to be soldered as shown in the following ima
 
 ### 3.3 - Home Assistant
 
+#### 3.3.1 Install Home Assistant on Raspberry Pi
+
+Have a 16GB card ready to flash the latest Home Assistant by following [this guide](https://www.home-assistant.io/getting-started).
+
+After following the installation rules follow as well the ["On-Board" initial steps](https://www.home-assistant.io/getting-started/onboarding/) that guide through creating an account (but detection of devices in your network can be ignored).
+
+#### 3.3.2 Install Required Add-Ons on Home Assistant
+
+There are a couple of required Add-ons that need to be installed and other two that can be installed optionally (will only mention the purpose but not guide on them):
+
+
+   | Add-on Name |	Required? | Description |
+   | --| -- | -- |
+   | Mosquito Broker | Yes | MQTT Broker required for Tasmotta communication | 
+   | File Editor | Yes | HA GUI integrated file editor | 
+   | Duck DNS | No | Easy DynDNS solution for HA | 
+   | TasmoAdmin | No | Manage Tasmota devices on your network | 
+
+1. To install the abovementioned required (or optional) add-ons, log-in onto HA and access "Supervisor" on the left Side menu and then the "Add-On Store" tab (or http://homeassistant:8123 );
+
+2. For each add-on, click on it and press "install";
+
+3. After Install is complete, select "Start on Boot" on;
+
+4. "Start" the add-on;
+
+   ![mosquitto_install](img/ha_mosquitto_install.png)
+*After following the above steps, the Add-on details should look like the above image*
 
 
 ### 3.4 - Integration
 
+The final part is physically and logically integrate the 3 main components toguether to get the end result.
 
+#### 3.4.1 - Wiring
 
+There are two parts of the wiring: Electrical and Serial Interface.
 
+ ![wiring_diagram](img/wiring.png)
+*Wiring Diagram*
+
+**1. Serial Interface Wiring**
+
+Make sure you have already soldered the resistor on the PZEM to adjust the Serial voltage and also that you have the pinheads soldered on sonoff.
+
+Using the Dupont Cables F2F, connect the Sonoff and the PZEM serial interface following the diagram and/or the next table as reference.
+
+   | PZEM |	Sonoff |
+   | --| -- |
+   GND |	GND
+   5V	| 3.3V
+   TX	| RX
+   RX |	TX
+
+**2. Electrical Wiring**
+
+2.1 Use the Schuko Plug with the wire bought and cut according to you needs, at least cut a small 10cm part of it to make the connector between the Sonoff and Pzem;
+
+2.2 Connect the oposite end of the schucko to the Sonoff's Input as shown in the diagram (blue is the neutral and brown the line);
+
+2.3 With the short 10cm part of the cable, wire the Sonoff's output to the PZEM Input as show in the diagram;
+
+2.4 Finally, connect the Coil to the remaining ports of the PZEM as shown in the diagram;
+
+**3. Plug**
+
+With all the wiring done, make sure you have the boards on a stable surface without any metal.
+
+Safelly plug the shucko into the wall socket and check that the leds on the PZEM start to blip. If they don't, don't stress yet as the Sonoff switch might be off. Next section we will cover the switch provision.
+
+#### 3.4.2 - Sonoff/Tasmota Integration
+
+#### 3.4.3 - Home Assistant Integration
 
 ##  - Ackowledgments
