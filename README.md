@@ -269,13 +269,41 @@ Using the Dupont Cables F2F, connect the Sonoff and the PZEM serial interface fo
 
 2.4 Finally, connect the Coil to the remaining ports of the PZEM as shown in the diagram;
 
+ ![wiring_photo](img/wiring_photo.png)
+*Wiring Photo*
+
 **3. Plug**
 
 With all the wiring done, make sure you have the boards on a stable surface without any metal.
 
-Safelly plug the shucko into the wall socket and check that the leds on the PZEM start to blip. If they don't, don't stress yet as the Sonoff switch might be off. Next section we will cover the switch provision.
+Safelly plug the shucko into the wall socket and check that the leds on the PZEM start to blip. If they don't, don't stress yet as the Sonoff switch might be off. 
+
+Next section we will cover the switch provision as this design left the main circuit go through the Sonoff so it gives the flexebility to cut power from the PZEM at any given time.
 
 #### 3.4.2 - Sonoff/Tasmota Integration
+
+##### 3.4.2.1 - Sonoff Switch
+
+As mentioned in the previous section, the switch might be disabled at start. To test if the PZEM is working (in case it didn't light up once you plugged) go to your tasmota web page and check if just above the "Toggle" button it says "ON" of "OFF". If it says "OFF", just press the "Toggle" button and it should switch, powering the PZEM.
+
+ ![tasmota_main](img/tasmota_main.png)
+*Tasmota main screen*
+
+In order for the switch to be "ON" by default we can use the web request directly like this:
+
+`````
+curl http://tasmota_IP/cm?cmnd=PowerOnState%20ON
+`````
+This command sets the switch to be by default "ON" uppon turned on.
+
+To check the status you can use just:
+
+`````
+curl http://tasmota_IP/cm?cmnd=PowerOnState
+`````
+
+##### 3.4.2.2 - MQTT Broker Configuration
+
 
 #### 3.4.3 - Home Assistant Integration
 
