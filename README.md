@@ -417,7 +417,7 @@ If all went well you should now be able to see in the main screen the data from 
 
  ![ha_history](img/ha_history.png)
 
-## ** Final notes / Ackowledgments **
+## **Final notes / Ackowledgments**
 
 Not being a true electronics geek has its shortcomings so apologies for any misconcepts/errors on the guide.
 
