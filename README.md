@@ -8,9 +8,9 @@ This is part of a bigger project (under development) for the installation of a s
 
 Note: All work was done using MacOS and it will be the reference in this project.
 
-## 2 - Architecture
+## **2 - Architecture**
 
-### 2.1 - Overview
+### **2.1 - Overview**
 
 There are two main functionalities required for the Power Consumption meter: measure and display information.
 For the measure part, after some search, the module Peacefair PZEM-004T kept poping up. Its a module capable of readings up to 100A using either a whole or split core.
@@ -23,7 +23,7 @@ The meaurement part is therefore accomplished by using the PZEM and the Sonoff i
 For data storage and visualization the option fell within Hass.io HomeAssistant installed on a (reporpused) Raspberry Pi 3.
 HomeAssistant seems to have a growing community with plenty of plugins for a multitude of porpuses, mainly focused on Home Automation but also capable of data storage and viewability.
 
-### 2.2 - BoM (Bill of Materials)
+### **2.2 - BoM (Bill of Materials)**
 
 This is a full bill of materials used but only a few were bought for the project as, mostly on the RPI side, I had everything (all items unitary unless otherwise mentioned).
 
@@ -44,7 +44,7 @@ NOTE: Not considering any tools used (multimeter, wire crimpers/clipers, solder 
 
 Overall spent around 16€ with all the materials bought for the project. Of course the most expensive component is the RPI (and related items) which I already had but can add an extra 50€.
 
-### 2.3 - Sonoff Basic
+### **2.3 - Sonoff Basic**
 
 Sonoff Basic is a well known module used to create a switch within any circuit (<10A) for automation. Its a rather cheap module that brings with it a ESP8266 module which means it is flashable with [Tasmota](https://github.com/arendst/Tasmota), a custom firmware for ESP8266 modules.
 
@@ -58,7 +58,7 @@ We will need both to communicate with the PZEM-004T module through the TTL Seria
 
 On top of that, Tasmota has all the features the original firmware has (i.e.: switch) when accessed directly or with HomeAssistant.
 
-### 2.4 - PZEM-004T
+### **2.4 - PZEM-004T**
 
 The Peacefair PZEM-004T is a reader of electrical related indicators such as Voltage, Current and Frequency. Its capable of up to 10 Amps without any external measurement aid and if used a closed or split coil it can go up to 100 Amps.
 
@@ -66,17 +66,17 @@ For this project it was used a PZEM-004T version 3 (as oposed to older Version 1
 
 There is a great website with tons of information regarding the PZEM, including the data-sheet and wiring information available at [InnovatorsGuru](https://www.innovatorsguru.com/pzem-004t-v3/).
 
-### 2.5 - Home Assistant
+### **2.5 - Home Assistant**
 
 Home Assistant calls itself the "ultimate home automation hub". It is an open source software with a active and growing community that features an easy to install automation platform for devices that somehow provide an API that can be used. It is also usefull as a data broker (MQTT Broker) and storage/visualization either out of the box or with its plugins (such as InfluxDB and Grafana).
 
 For this project we will use just set it up and configure as MQTT Broker for the data coming from the PZEM/Tasmota and provide some level of data visualization.
 
-## 3 - Implementation
+## **3 - Implementation**
 
 This section will detail de steps (or where to find them) for setup each component of the solution and in the end cover the integration of all the parts.
 
-### 3.1 - Sonoff Basic
+### **3.1 - Sonoff Basic**
 
 #### 3.1.1 - Soldering Pin Heads to the PCB GPIO's
 
@@ -88,11 +88,6 @@ If you turn the Sonoff upside down you will see in the midle of the PCB 4 GPIOs 
 
 ![Sonoff_Basic_upside_down_PCB](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmota/sonoff-basic-r2/back.jpg "Sonoff_Basic_upside_down_PCB")
 *Sonoff Basic R2 rear PCB view and location of the 4 GPIOs. Image from [Tasmota Github](https://github.com/arendst/Tasmota/wiki/Sonoff-Basic)*
-
-After soldering it should look something like this.
-
-**TODO
-[INSERT IMAGE]**
 
 #### 3.1.2 - Backup Current Sonoff Firmware (optional)
 
@@ -175,7 +170,7 @@ You should have followed all the steps in the previous section untill the point 
 
    Serial and Syslog loggings is disable while web log is at level 2. Telemetry period is the rate MQTT data is sent and is set to 15 seconds.
 
-3. Configure the module, preparing already for the integration with PZEM, with the required GPIOs functions. For that access the "Configuration" menu and then "Module Configuration" and apply the values as shown in the following image;
+3. Configure the module, preparing already for the integration with PZEM, with the required GPIOs functions. For that access the "Configuration" menu and then "Configure Module" and apply the values as shown in the following image;
 
    ![Module Config Values](img/module_config_values.png)
 ````
@@ -185,11 +180,11 @@ You should have followed all the steps in the previous section untill the point 
 `````
    The D6 GPIO12 is optional since its only to be able to controll the power switch of the Sonoff. In case you don't want to use it, leave it at None (0).
 
-   **Note:** RX GPIO3 value is (98) for integrations with PZEM004T Version 3. In case it is the older version 1 it should be set to option (63) instead.
+   **Note:** RX GPIO3 value is (98) for integrations with PZEM004T Version 3. In case it is the older version 1 it should be set to option PZEM004 Rx (63) instead.
 
 For now thats all with the Tasmota, further configs explained during integration.
 
-### 3.2 - PZEM-004
+### **3.2 - PZEM-004**
 
 The PZEM has litle to be done in preparation for the integration but for those who don't like soldering it might be enough. :)
 Due to the different serial voltage on both Sonoff (3.3V) and the PZEM module (5V), it's value must be adjusted.
@@ -201,9 +196,10 @@ The tutorial available at the [Wiki Article on Tasmota GitHub](https://github.co
 Basically the 1K Ohm resistor needs to be soldered as shown in the following image.
 
 ![pzem soldering](https://user-images.githubusercontent.com/34340210/63591794-cf3d5d80-c57d-11e9-9945-eb062bebf71b.jpeg "PZEM Resistor soldering")
+
 *PZEM004T Soldered resistor for voltage dividor [Tasmota Github](https://github.com/arendst/Tasmota/wiki/PZEM004T-Energy-Monitor)*
 
-### 3.3 - Home Assistant
+### **3.3 - Home Assistant**
 
 #### 3.3.1 Install Home Assistant on Raspberry Pi
 
@@ -235,7 +231,7 @@ There are a couple of required Add-ons that need to be installed and other two t
 *After following the above steps, the Add-on details should look like the above image*
 
 
-### 3.4 - Integration
+### **3.4 - Integration**
 
 The final part is physically and logically integrate the 3 main components toguether to get the end result.
 
@@ -296,15 +292,137 @@ curl http://tasmota_IP/cm?cmnd=PowerOnState%20ON
 `````
 This command sets the switch to be by default "ON" uppon turned on.
 
-To check the status you can use just:
+To check the status you can use the following command (should show "PowerOnState":1 where '1' means ON):
 
 `````
 curl http://tasmota_IP/cm?cmnd=PowerOnState
+{"PowerOnState":1}
 `````
 
 ##### 3.4.2.2 - MQTT Broker Configuration
 
+To configure the MQTT Broker (Mosquitto that was installed on Raspberry Pi) go to Configure > Configure MQTT and the fill in the parameters as follows:
+
+   | Atribute |	Value |
+   | --| -- |
+   Host | Your RPI IP address (or hostname)
+   Port	| 1883
+   Client	| (leave value)
+   User |	tasmota 
+   Password |	-
+   Topic	| pzem
+   Full Topic | tele/%topic%/
+
+ ![mqtt_config](img/tasmota_mqtt_config.png)
+
+*Tasmota MQTT Config*
+
+Now hit "Save" button and go back to Tasmota's main menu.
+Go to "Console" menu and check it connected sucessfully to the MQTT Server and it is transmitting MQTT data to both tele/pzem/STATE and tele/pzem/SENSOR collections.
 
 #### 3.4.3 - Home Assistant Integration
 
-##  - Ackowledgments
+The final piece in the puzzle is to configure the Tasmotta to read the information from the MQTT Broker (Mosquitto).
+
+
+##### 3.4.3.1 - Edit /config/configuration.yaml
+
+1. Open the File Editor add-on and click on the "folder icon" to search for the /config/configuration.yaml file;
+
+ ![browse_filesystem](img/ha_browse_filesystem.png)
+
+2. Once opened the configuration.yaml file, add the sensor information bellow to the file:
+
+   `````
+   sensor:
+
+   - platform: mqtt
+      name: "Watts"
+      state_topic: "tele/pzem/SENSOR"
+      value_template: "{{ value_json.ENERGY.Power }}"
+      unit_of_measurement: "W"
+      icon: mdi:power-plug
+
+   - platform: mqtt
+      name: "Voltage"
+      state_topic: "tele/pzem/SENSOR"
+      value_template: "{{ value_json.ENERGY.Voltage }}"
+      unit_of_measurement: "V"
+      icon: mdi:flash
+
+   - platform: mqtt
+      name: "Current"
+      state_topic: "tele/pzem/SENSOR"
+      value_template: "{{ value_json.ENERGY.Current }}"
+      unit_of_measurement: "A"
+      icon: mdi:power-socket
+
+
+   - platform: mqtt
+      name: "Dailly Consumption"
+      state_topic: "tele/pzem/SENSOR"
+      value_template: "{{ value_json.ENERGY.Today }}"
+      unit_of_measurement: "kWh"
+      icon: mdi:power-socket-eu
+
+   - platform: mqtt
+      name: "Previous Day Consumption"
+      state_topic: "tele/pzem/SENSOR"
+      value_template: "{{ value_json.ENERGY.Yesterday }}"
+      unit_of_measurement: "kWh"
+      icon: mdi:power-socket-eu
+
+   - platform: mqtt
+      name: "Total Consumption"
+      state_topic: "tele/pzem/SENSOR"
+      value_template: "{{ value_json.ENERGY.Total }}"
+      unit_of_measurement: "kWh"
+      icon: mdi:power-socket-eu
+
+   `````
+3. Save the file by clicking the save icon on top right screen;
+
+##### 3.4.3.2 - Edit /config/groups.yaml
+
+1. Open the File Editor add-on and click on the "folder icon" to search for the /config/groups.yaml file;
+
+2. Once opened the groups.yaml file, add the sensor information bellow to the file:
+
+   `````
+   energy:
+    view: yes
+    icon: mdi:power-socket
+    entities:
+      - group.energygroup
+
+   energygroup:
+    control: hidden
+    name: Energy Consumption
+    entities:
+      - sensor.watts
+      - sensor.voltage
+      - sensor.current
+      - sensor.dailly_consumption
+      - sensor.previous_day_consumption
+      - sensor.total_consumption
+   `````
+3. Save the file by clicking the save icon on top right screen;
+
+
+##### 3.4.3.3 - Check Home Screen
+
+If all went well you should now be able to see in the main screen the data from PZEM and graphics. If selecting the "History" tab on the left bar, will have more graphis and greater detail. :)
+
+ ![ha_group_data](img/ha_group_data.png)
+
+ ![ha_history](img/ha_history.png)
+
+## ** Final notes / Ackowledgments **
+
+Not being a true electronics geek has its shortcomings so apologies for any misconcepts/errors on the guide.
+
+To report any issues use the github "Issues" feature and I'll do my best to answer or update the guide.
+
+Many guides were used to seek information and details and since a few were already mentioned during the guide but there is one important missing:
+
+[Portuguese Home Assistant Community](https://forum.cpha.pt/t/como-instalar-e-configurar-um-medidor-de-energia-pzem-004t/540) - This was the first guide pointing to the PZEM I read and triggered the project. Many Thanks :)
