@@ -417,6 +417,39 @@ If all went well you should now be able to see in the main screen the data from 
 
  ![ha_history](img/ha_history.png)
 
+## **4 - Tips and Enhancements**
+
+There are some tips and enhancements I found and implemented during the operation of the system that might be handy to some.
+
+### **4.1 - Tasmota Timezone Configuration**
+
+If you live in a country with Daylight Saving Time policy you might be interested on Tasmota to be in sync even during those changes (mainly to properly reset the counter on daily/previous day consumption).
+
+The two commands to setup the automatic time adjustment are "TimeSTD" and "TimeDST" (Standart Time and Dayligh Saving Time).
+
+These are the notes from [Tasmota Configuration Guide](https://tasmota.github.io/docs/Commands/):
+
+````
+Set policies for the beginning of daylight saving time (DST) and return back to standard time (STD) 
+0 = reset parameters to firmware defaults
+H,W,M,D,h,T
+H = hemisphere (0 = northern hemisphere / 1 = southern hemisphere)
+W = week (0 = last week of month, 1..4 = first .. fourth)
+M = month (1..12)
+D = day of week (1..7 1 = sunday 7 = saturday)
+h = hour (0..23)
+T = timezone (-780..780) (offset from UTC in MINUTES - 780min / 60min=13hrs)
+Example: TIMEDST 1,1,10,1,2,660
+````
+So, for UK or Portugal, the correct inputs are:
+
+````
+http://<TASMOTA_IP>/cm?cmnd=TimeStd%200,0,10,1,2,0
+
+http://<TASMOTA_IP>/cm?cmnd=TimeDst%200,0,3,1,1,60
+````
+
+
 ## **Final notes / Ackowledgments**
 
 Not being a true electronics geek has its shortcomings so apologies for any misconcepts/errors on the guide.
